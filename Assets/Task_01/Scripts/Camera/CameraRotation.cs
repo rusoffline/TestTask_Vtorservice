@@ -17,7 +17,9 @@ public class CameraRotation : IRotable
 
     public void Rotate(float deltaX)
     {
-        float newAngle = Mathf.Clamp(cameraTransform.eulerAngles.y + deltaX * rotationSpeed, minRotationAngle, maxRotationAngle);
-        cameraTransform.rotation = Quaternion.Euler(0f, newAngle, 0f);
+        //float angle = Mathf.Clamp(cameraTransform.eulerAngles.y + deltaX * rotationSpeed, minRotationAngle, maxRotationAngle);
+        //cameraTransform.rotation = Quaternion.Euler(new Vector3(90f, angle, 0f));
+
+        cameraTransform.Rotate(Vector3.up, deltaX * rotationSpeed, Space.World);
     }
 }

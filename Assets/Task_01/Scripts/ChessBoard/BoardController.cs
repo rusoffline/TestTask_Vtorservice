@@ -2,21 +2,22 @@ using UnityEngine;
 
 public class BoardController : IBoardController
 {
-    private GameObject selectedPiece;
+    private ISelectable selectedPiece;
 
-    public void SelectPiece(GameObject piece)
+    public void SelectPiece(ISelectable piece)
     {
         selectedPiece = piece;
+        selectedPiece.OnSelect();
     }
 
     public void MovePieceToCell(GameObject cell)
     {
         if (selectedPiece != null)
         {
-            selectedPiece.transform.position = cell.transform.position + Vector3.up * 0.5f;
+            selectedPiece.Transform.position = cell.transform.position + Vector3.up * 0.5f;
 
-            Debug.Log($"{selectedPiece.name} moves to {cell.name}");
-            selectedPiece = null;
+            Debug.Log($"{selectedPiece.Transform.name} moves to {cell.name}");
+            DeselectPiece();
             return;
         }
         Debug.Log("Piece not selected");
@@ -24,7 +25,11 @@ public class BoardController : IBoardController
 
     public void DeselectPiece()
     {
-        selectedPiece = null;
-        Debug.Log("Piece deselected");
+        if(selectedPiece!=null)
+        {
+            selectedPiece.OnDeselect();
+            selectedPiece = null;
+            Debug.Log("Piece deselected");
+        }
     }
 }
